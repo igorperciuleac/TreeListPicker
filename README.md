@@ -2,7 +2,7 @@
 Tree list picker realization for Android
 
 # DataProvider
-## Files system data provider example
+## File system data provider example
 ### ListItem implementation
 
 ```kotlin
@@ -36,4 +36,6 @@ TreeListDialogBuilder(this, FSDataProvider()).apply {
     positiveButtonClick = {doSomethind(it)}
 }.build().show()
 ```
+
+![Example with file system provider ](http://i65.tinypic.com/2pshls1.png)
 
