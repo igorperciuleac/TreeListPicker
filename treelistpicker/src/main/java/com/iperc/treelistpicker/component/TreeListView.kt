@@ -9,12 +9,14 @@ import com.iperc.treelistpicker.R
 import com.iperc.treelistpicker.base.ListAdapter
 import com.iperc.treelistpicker.base.ListItem
 import com.iperc.treelistpicker.provider.DataProvider
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.util.*
 
 
-class TreeListView<I : ListItem>(context: Context?) : FrameLayout(context) {
+class TreeListView<I : ListItem>(context: Context) : FrameLayout(context) {
     var itemIconResource: Int = R.drawable.item_icon
     var directoryIconResource: Int = R.drawable.directory_icon
 
@@ -63,16 +65,16 @@ class TreeListView<I : ListItem>(context: Context?) : FrameLayout(context) {
         }
     }
 
-    private fun loadRoot() = async(UI) {
+    private fun loadRoot() = GlobalScope.launch(Dispatchers.Main){
         itemList.clear()
-        itemList.addAll(async { dataProvider.getRoot() }.await())
-        recycleView.adapter.notifyDataSetChanged()
+        itemList.addAll(async(Dispatchers.IO) { dataProvider.getRoot() }.await())
+        recycleView.adapter?.notifyDataSetChanged()
     }
 
-    private fun loadByParent(item: I) = async(UI) {
+    private fun loadByParent(item: I) = GlobalScope.launch (Dispatchers.Main) {
         itemList.clear()
-        itemList.addAll(async { dataProvider.getByParent(item) }.await())
-        recycleView.adapter.notifyDataSetChanged()
+        itemList.addAll(async(Dispatchers.IO) { dataProvider.getByParent(item) }.await())
+        recycleView.adapter?.notifyDataSetChanged()
     }
 
 
