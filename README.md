@@ -37,5 +37,3 @@ TreeListDialogBuilder(this, FSDataProvider()).apply {
 }.build().show()
 ```
 
-![Example with file system provider ](http://i65.tinypic.com/2pshls1.png)
-
